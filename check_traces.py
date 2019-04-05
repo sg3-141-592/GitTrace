@@ -18,6 +18,8 @@ for r, d, f in os.walk(path):
 tags = dict()
 
 # Get all the tags out of requirements files
+# System Requirements are level 0
+# Software Requirements are level 1
 for file in files:
     f = open(file, "r")
     print(Fore.LIGHTBLUE_EX + file)
@@ -30,7 +32,12 @@ for file in files:
         else:
             print(Fore.GREEN + "new req: " + line)
             # None represents no trace
-            tags[line] = None
+            item = None
+            if 'sys' in file:
+                item = {'trace': None, 'level': 0}
+            else:
+                item = {'trace': None, 'level': 1}
+            tags[line] = item
 
 # Iterate through all of the link modules
 for file in trace_files:
@@ -46,13 +53,17 @@ for file in trace_files:
             if trace[1] in tags:
                 # Create the trace
                 print(Fore.LIGHTYELLOW_EX + "Tracing " + trace[0] + ":" + trace[1])
-                tags[trace[0]] = trace[1]
+                item = tags[trace[0]]
+                item['trace'] = trace[1]
+                tags[trace[0]] = item
             else:
                 break
         else:
             print(Fore.RED + "Invalid trace " + trace[0] + ":" + trace[1])
 
-# file = open("test\\req.txt","r")
-# for line in file:
-#     print(Fore.GREEN + line)
-#     a = 1
+# Summarise Trace Status
+# BOTTOM UP
+for tag in tags:
+    if tags[tag]['level'] == 1:
+        if tags[tag]['trace'] == None:
+            print(Fore.RED + "Untraced req " + tag)
