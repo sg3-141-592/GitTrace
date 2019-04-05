@@ -17,32 +17,37 @@ for r, d, f in os.walk(path):
 
 tags = dict()
 
+print(Fore.WHITE + "-- Importing Requirements --")
+
 # Get all the tags out of requirements files
 # System Requirements are level 0
 # Software Requirements are level 1
 for file in files:
     f = open(file, "r")
-    print(Fore.LIGHTBLUE_EX + file)
+    print(Fore.LIGHTBLUE_EX + "A " + file)
     for line in f:
         # Drop out end of line characters
         line = line.replace('\n','')
         # Try and add tags to dictionary
         if line in tags:
             print(Fore.RED + "duplicate req: " + line)
+            None
         else:
-            print(Fore.GREEN + "new req: " + line)
+            #print(Fore.GREEN + "new req: " + line)
             # None represents no trace
             item = None
             if 'sys' in file:
-                item = {'trace': None, 'level': 0}
+                item = {'traceUp': None, 'level': 0}
             else:
-                item = {'trace': None, 'level': 1}
+                item = {'traceUp': None, 'level': 1}
             tags[line] = item
+
+print(Fore.WHITE + "-- Importing Traceability --")
 
 # Iterate through all of the link modules
 for file in trace_files:
     f = open(file, "r")
-    print(Fore.LIGHTBLUE_EX + file)
+    print(Fore.LIGHTBLUE_EX + "A " + file)
     for line in f:
         # Drop out end of line characters
         line = line.replace('\n','')
@@ -52,18 +57,26 @@ for file in trace_files:
         if trace[0] in tags:
             if trace[1] in tags:
                 # Create the trace
-                print(Fore.LIGHTYELLOW_EX + "Tracing " + trace[0] + ":" + trace[1])
+                #print(Fore.LIGHTYELLOW_EX + "Tracing " + trace[0] + ":" + trace[1])
                 item = tags[trace[0]]
-                item['trace'] = trace[1]
+                item['traceUp'] = trace[1]
                 tags[trace[0]] = item
             else:
                 break
         else:
-            print(Fore.RED + "Invalid trace " + trace[0] + ":" + trace[1])
+            print(Fore.RED + "invalid trace " + trace[0] + ":" + trace[1])
 
+
+print(Fore.WHITE + "-- Summary --")
 # Summarise Trace Status
 # BOTTOM UP
+untraced = []
 for tag in tags:
     if tags[tag]['level'] == 1:
-        if tags[tag]['trace'] == None:
-            print(Fore.RED + "Untraced req " + tag)
+        if tags[tag]['traceUp'] == None:
+            untraced.append(Fore.RED + "untraced req " + tag)
+
+print(Fore.YELLOW + "untraced - " + str(len(untraced)))
+
+# Return codes
+exit(1)
