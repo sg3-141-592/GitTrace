@@ -23,6 +23,11 @@ def report_trace(key):
             print(Fore.RED + "D " + str(removed))
 
 print(Fore.WHITE + "-- Analysing Traceability --")
+print(Fore.WHITE + "-- Summary")
+print("No Up Trace: " + str(len(after_trace['noUpTrace'])))
+print("No Down Trace: " + str(len(after_trace['noDownTrace'])))
+print("No Test: " + str(len(after_trace['noTest'])))
+print(Fore.WHITE + "-- Differences")
 report_trace('tags')
 report_trace('noUpTrace')
 report_trace('noDownTrace')
