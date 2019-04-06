@@ -42,14 +42,14 @@ def get_traceability(path):
 
     tags = dict()
 
-    print(Fore.WHITE + "-- Importing Requirements --")
+    # print(Fore.WHITE + "-- Importing Requirements --")
 
     # Get all the tags out of requirements files
     # System Requirements are level 0
     # Software Requirements are level 1
     for file in req_files:
         f = open(file, "r")
-        print(Fore.LIGHTBLUE_EX + "A " + file)
+        # print(Fore.LIGHTBLUE_EX + "A " + file)
         for line in f:
             # Drop out end of line characters
             line = line.replace('\n','')
@@ -67,12 +67,12 @@ def get_traceability(path):
                     item = {'traceUp': None, 'traceDown': None, 'tests': [], 'level': 1}
                 tags[line] = item
 
-    print(Fore.WHITE + "-- Importing Traceability --")
+    # print(Fore.WHITE + "-- Importing Traceability --")
 
     # Iterate through all of the link modules
     for file in trace_files:
         f = open(file, "r")
-        print(Fore.LIGHTBLUE_EX + "A " + file)
+        # print(Fore.LIGHTBLUE_EX + "A " + file)
         for line in f:
             # Drop out end of line characters
             line = line.replace('\n','')
@@ -100,7 +100,7 @@ def get_traceability(path):
     for file in test_files:
         f = open(file, "r")
         tests[file] = {'traces': []}
-        print(Fore.LIGHTBLUE_EX + "A " + file)
+        # print(Fore.LIGHTBLUE_EX + "A " + file)
         for line in f:
             # Drop out end of line characters
             line = line.replace('\n','')
@@ -112,7 +112,7 @@ def get_traceability(path):
             else:
                 print(Fore.RED + "invalid verification trace " + line)
 
-    print(Fore.WHITE + "-- Summary --")
+    # print(Fore.WHITE + "-- Summary --")
     # Summarise Trace Status
     # BOTTOM UP
     noUpTrace = []
@@ -138,4 +138,5 @@ def get_traceability(path):
     
     return {'noUpTrace': noUpTrace,
             'noDownTrace': noDownTrace,
-            'noTest': noTest}
+            'noTest': noTest,
+            'tags': tags}
