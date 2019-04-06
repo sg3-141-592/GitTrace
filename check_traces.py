@@ -24,7 +24,6 @@ modified = []
 for diff_item in diff_index.iter_change_type('M'):
     modified.append(diff_item.b_blob.path)
     print(Fore.CYAN + "M " + diff_item.b_blob.path)
-# Get the changes being commited
 
 
 # Find all of the requirements files
