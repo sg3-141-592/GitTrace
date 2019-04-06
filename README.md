@@ -2,6 +2,7 @@
 Try to demonstrate the use of git to manage traceability history, and using a simple Python program to try and analyse traceability.
 
 **Features Todo**
-- [ ] Make it git aware
+- [x] Make it git aware
+   - [ ] Fix pre-commit hook file handles error 
 - [ ] Make it version aware
 - [ ] Needs a scalability test
