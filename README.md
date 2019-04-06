@@ -4,5 +4,5 @@ Try to demonstrate the use of git to manage traceability history, and using a si
 **Features Todo**
 - [x] Make it git aware
    - [ ] Fix pre-commit hook file handles error 
-- [ ] Make it version aware
+- [ ] Make it git tags aware
 - [ ] Needs a scalability test
