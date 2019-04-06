@@ -36,7 +36,6 @@ def get_traceability(path):
             # Try and add tags to dictionary
             if line in tags:
                 print(Fore.RED + "duplicate req: " + line)
-                None
             else:
                 #print(Fore.GREEN + "new req: " + line)
                 # None represents no trace
