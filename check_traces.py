@@ -1,7 +1,26 @@
 from colorama import init, Fore, Back, Style
+from git import Repo
 import os
 
+# Turn on terminal colours
 init()
+
+# Connect to the local git repository
+print(Fore.WHITE + "-- Getting Changes --")
+repo = Repo(".")
+diff_index = repo.index.diff("HEAD")
+# Added files
+added = []
+for diff_item in diff_index.iter_change_type('A'):
+    added.append(diff_item.b_blob.path)
+    print(Fore.GREEN + "A " + diff_item.b_blob.path)
+# Modified files
+modified = []
+for diff_item in diff_index.iter_change_type('M'):
+    modified.append(diff_item.b_blob.path)
+    print(Fore.RED + "M " + diff_item.b_blob.path)
+# Get the changes being commited
+
 
 # Find all of the requirements files
 path = '.\\test\\'
