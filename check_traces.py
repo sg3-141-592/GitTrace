@@ -60,9 +60,9 @@ for file in files:
             # None represents no trace
             item = None
             if 'sys' in file:
-                item = {'traceUp': None, 'level': 0}
+                item = {'traceUp': None, 'traceDown': None, 'level': 0}
             else:
-                item = {'traceUp': None, 'level': 1}
+                item = {'traceUp': None, 'traceDown': None, 'level': 1}
             tags[line] = item
 
 print(Fore.WHITE + "-- Importing Traceability --")
@@ -84,22 +84,31 @@ for file in trace_files:
                 item = tags[trace[0]]
                 item['traceUp'] = trace[1]
                 tags[trace[0]] = item
+                # Link the other way
+                item = tags[trace[1]]
+                item['traceDown'] = trace[0]
             else:
-                break
+                print(Fore.RED + "invalid trace " + trace[0] + ":" + trace[1])
         else:
             print(Fore.RED + "invalid trace " + trace[0] + ":" + trace[1])
-
 
 print(Fore.WHITE + "-- Summary --")
 # Summarise Trace Status
 # BOTTOM UP
-untraced = []
+noUpTrace = []
 for tag in tags:
     if tags[tag]['level'] == 1:
         if tags[tag]['traceUp'] == None:
-            untraced.append(Fore.RED + "untraced req " + tag)
+            noUpTrace.append(tag)
+# TOP DOWN
+noDownTrace = []
+for tag in tags:
+    if tags[tag]['level'] == 0:
+        if tags[tag]['traceDown'] == None:
+            noDownTrace.append(tag)
 
-print(Fore.YELLOW + "untraced - " + str(len(untraced)))
+print(Fore.YELLOW + "| missing upward traces | " + str(len(noUpTrace)) + "|")
+print(Fore.YELLOW + "| missing downwards traces | " + str(len(noDownTrace)) + "|")
 
 # Return codes
 exit(1)
