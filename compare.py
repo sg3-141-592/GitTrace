@@ -18,9 +18,9 @@ def report_trace(key):
     if len(added) > 0 or len(removed) > 0:
         print(Fore.WHITE + "-- " + key)
         if len(added) > 0:
-            print(Fore.GREEN + "A " + str(added))
+            print(Fore.GREEN + "New: " + str(added))
         if len(removed) > 0:
-            print(Fore.RED + "D " + str(removed))
+            print(Fore.RED + "Removed: " + str(removed))
 
 print(Fore.WHITE + "-- Analysing Traceability --")
 print(Fore.WHITE + "-- Summary")
