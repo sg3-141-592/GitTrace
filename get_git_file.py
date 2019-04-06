@@ -8,10 +8,14 @@ init()
 repo = Repo(".")
 tree = repo.head.commit.tree # Current commit, not staging!
 
-for (path, stage), entry in repo.index.entries.items():
-    print(path)
-    print(stage)
-    print(entry)
+# for (path, stage), entry in repo.index.entries.items():
+#     print(path)
+#     print(stage)
+#     print(entry)
+
+a = list(repo.index.iter_blobs())
+for i in a:
+    print(i[1].path)
 
 req_files = []
 trace_files = []
