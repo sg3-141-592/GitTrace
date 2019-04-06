@@ -29,14 +29,17 @@ for diff_item in diff_index.iter_change_type('M'):
 # Find all of the requirements files
 path = '.\\test\\'
 
-files = []
+req_files = []
 trace_files = []
+test_files = []
 for r, d, f in os.walk(path):
     for file in f:
         if '.txt' in file:
-            files.append(os.path.join(r, file))
+            req_files.append(os.path.join(r, file))
         elif '.trace' in file:
             trace_files.append(os.path.join(r, file))
+        elif '.tst' in file:
+            test_files.append(os.path.join(r, file))
 
 tags = dict()
 
@@ -45,7 +48,7 @@ print(Fore.WHITE + "-- Importing Requirements --")
 # Get all the tags out of requirements files
 # System Requirements are level 0
 # Software Requirements are level 1
-for file in files:
+for file in req_files:
     f = open(file, "r")
     print(Fore.LIGHTBLUE_EX + "A " + file)
     for line in f:
@@ -60,9 +63,9 @@ for file in files:
             # None represents no trace
             item = None
             if 'sys' in file:
-                item = {'traceUp': None, 'traceDown': None, 'level': 0}
+                item = {'traceUp': None, 'traceDown': None, 'tests': [], 'level': 0}
             else:
-                item = {'traceUp': None, 'traceDown': None, 'level': 1}
+                item = {'traceUp': None, 'traceDown': None, 'tests': [], 'level': 1}
             tags[line] = item
 
 print(Fore.WHITE + "-- Importing Traceability --")
@@ -92,6 +95,24 @@ for file in trace_files:
         else:
             print(Fore.RED + "invalid trace " + trace[0] + ":" + trace[1])
 
+tests = dict()
+
+# Get all of the tests
+for file in test_files:
+    f = open(file, "r")
+    tests[file] = {'traces': []}
+    print(Fore.LIGHTBLUE_EX + "A " + file)
+    for line in f:
+        # Drop out end of line characters
+        line = line.replace('\n','')
+        # Append the traceability
+        tests[file]['traces'].append(line)
+        # Apply the verification links in the other direction
+        if line in tags:
+            tags[line]['tests'].append(file)
+        else:
+            print(Fore.RED + "invalid verification trace " + line)
+
 print(Fore.WHITE + "-- Summary --")
 # Summarise Trace Status
 # BOTTOM UP
@@ -106,9 +127,15 @@ for tag in tags:
     if tags[tag]['level'] == 0:
         if tags[tag]['traceDown'] == None:
             noDownTrace.append(tag)
+# UNTESTED REQUIREMENTS
+noTest = []
+for tag in tags:
+    if len(tags[tag]['tests']) == 0:
+        noTest.append(tag)
 
-print(Fore.YELLOW + "| missing upward traces | " + str(len(noUpTrace)) + "|")
-print(Fore.YELLOW + "| missing downwards traces | " + str(len(noDownTrace)) + "|")
+print(Fore.YELLOW + "| missing upward traces\t\t| " + str(len(noUpTrace)) + "\t|")
+print(Fore.YELLOW + "| missing downwards traces\t| " + str(len(noDownTrace)) + "\t|")
+print(Fore.YELLOW + "| untested requirement\t\t| " + str(len(noTest)) + "\t|")
 
 # Return codes
 exit(1)
