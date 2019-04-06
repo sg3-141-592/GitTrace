@@ -27,7 +27,7 @@ for diff_item in diff_index.iter_change_type('M'):
 
 
 # Find all of the requirements files
-path = '.\\test\\'
+path = '.\\test_after\\'
 
 req_files = []
 trace_files = []
