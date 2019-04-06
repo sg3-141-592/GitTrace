@@ -24,12 +24,15 @@ def report_trace(key):
 
 print(Fore.WHITE + "-- Analysing Traceability --")
 print(Fore.WHITE + "-- Summary")
-print("No Up Trace: " + str(len(after_trace['noUpTrace'])))
-print(after_trace['noUpTrace'])
-print("No Down Trace: " + str(len(after_trace['noDownTrace'])))
-print(after_trace['noDownTrace'])
-print("No Test: " + str(len(after_trace['noTest'])))
-print(after_trace['noTest'])
+if(len(after_trace['noUpTrace'])>0):
+    print("No Up Trace: " + str(len(after_trace['noUpTrace'])))
+    print(after_trace['noUpTrace'])
+if(len(after_trace['noDownTrace'])>0):
+    print("No Down Trace: " + str(len(after_trace['noDownTrace'])))
+    print(after_trace['noDownTrace'])
+if(len(after_trace['noTest'])>0):
+    print("No Test: " + str(len(after_trace['noTest'])))
+    print(after_trace['noTest'])
 print(Fore.WHITE + "-- Differences")
 report_trace('noUpTrace')
 report_trace('noDownTrace')
