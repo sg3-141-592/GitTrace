@@ -18,9 +18,9 @@ def report_trace(key):
     if len(added) > 0 or len(removed) > 0:
         print(Fore.WHITE + "-- " + key)
         if len(added) > 0:
-            print(Fore.GREEN + "New: " + str(added))
+            print(Fore.RED + "New untraced: " + str(added))
         if len(removed) > 0:
-            print(Fore.RED + "Removed: " + str(removed))
+            print(Fore.GREEN + "Fixed trace: " + str(removed))
 
 print(Fore.WHITE + "-- Analysing Traceability --")
 print(Fore.WHITE + "-- Summary")
@@ -31,7 +31,6 @@ print(after_trace['noDownTrace'])
 print("No Test: " + str(len(after_trace['noTest'])))
 print(after_trace['noTest'])
 print(Fore.WHITE + "-- Differences")
-report_trace('tags')
 report_trace('noUpTrace')
 report_trace('noDownTrace')
 report_trace('noTest')
