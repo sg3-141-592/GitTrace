@@ -1,3 +1,0 @@
-REQA
-REQB
-REQC

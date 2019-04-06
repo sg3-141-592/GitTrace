@@ -4,3 +4,4 @@ Try to demonstrate the use of git to manage traceability history, and using a si
 **Features Todo**
 - [ ] Make it git aware
 - [ ] Make it version aware
+- [ ] Needs a scalability test
